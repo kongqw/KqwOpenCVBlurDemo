@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="kong.qingwei.kqwopencvblurdemo.MainActivity">
+    <item
+        android:id="@+id/action_load_image"
+        android:orderInCategory="100"
+        android:title="选择图片"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_blur_image"
+        android:orderInCategory="100"
+        android:title="均值模糊方法"
+        app:showAsAction="never" />
+</menu>
