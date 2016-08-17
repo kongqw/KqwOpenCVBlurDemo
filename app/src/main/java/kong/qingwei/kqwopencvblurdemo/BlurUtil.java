@@ -26,6 +26,11 @@ public class BlurUtil {
         mSubscriber = subscriber;
     }
 
+    /**
+     * 均值模糊方法
+     *
+     * @param bitmap 要处理的图片
+     */
     public void blur(Bitmap bitmap) {
         // RxJava处理图片虚化
         if (null != mSubscriber)
@@ -41,6 +46,39 @@ public class BlurUtil {
 
                             // 均值模糊方法
                             Imgproc.blur(src, src, new Size(100, 100));
+
+                            // Mat转Bitmap
+                            Bitmap processedImage = Bitmap.createBitmap(src.cols(), src.rows(), Bitmap.Config.ARGB_8888);
+                            Utils.matToBitmap(src, processedImage);
+
+                            return processedImage;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(mSubscriber);
+    }
+
+    /**
+     * 高斯模糊方法
+     *
+     * @param bitmap 要处理的图片
+     */
+    public void gaussianBlur(Bitmap bitmap) {
+        // RxJava处理图片虚化
+        if (null != mSubscriber)
+            Observable
+                    .just(bitmap)
+                    .map(new Func1<Bitmap, Bitmap>() {
+
+                        @Override
+                        public Bitmap call(Bitmap bitmap) {
+                            // Bitmap转为Mat
+                            Mat src = new Mat(bitmap.getHeight(), bitmap.getWidth(), CvType.CV_8UC4);
+                            Utils.bitmapToMat(bitmap, src);
+
+                            // 高斯模糊方法
+                            Imgproc.GaussianBlur(src, src, new Size(91, 91), 0);
 
                             // Mat转Bitmap
                             Bitmap processedImage = Bitmap.createBitmap(src.cols(), src.rows(), Bitmap.Config.ARGB_8888);

@@ -105,8 +105,18 @@ public class MainActivity extends BaseActivity {
                 return false;
             }
             showProgressDialog("正在使用均值模糊算法处理图片...");
-            // 均值模糊算法模糊图片
+            // 均值模糊算法处理图片
             mBlurUtil.blur(mSelectImage);
+            return true;
+        } else if (id == R.id.action_gaussian_blur_image) {
+            // 高斯模糊方法
+            if (null == mSelectImage) {
+                Snackbar.make(mIvImage, "请先选择一张图片", Snackbar.LENGTH_SHORT).show();
+                return false;
+            }
+            showProgressDialog("正在使用高斯模糊算法处理图片...");
+            // 高斯模糊算法处理图片
+            mBlurUtil.gaussianBlur(mSelectImage);
             return true;
         }
         return super.onOptionsItemSelected(item);

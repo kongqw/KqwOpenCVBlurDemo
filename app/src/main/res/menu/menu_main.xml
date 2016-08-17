@@ -13,4 +13,10 @@
         android:orderInCategory="100"
         android:title="均值模糊方法"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_gaussian_blur_image"
+        android:orderInCategory="100"
+        android:title="高斯模糊方法"
+        app:showAsAction="never" />
 </menu>
