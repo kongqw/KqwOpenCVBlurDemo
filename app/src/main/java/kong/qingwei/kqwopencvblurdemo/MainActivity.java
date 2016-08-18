@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
         mIvImage = (ImageView) findViewById(R.id.ivImage);
         mIvImageProcessed = (ImageView) findViewById(R.id.ivImageProcessed);
 
-        // 图片模糊处理的工具类
+        // 图片处理的工具类
         mBlurUtil = new BlurUtil(new Subscriber<Bitmap>() {
             @Override
             public void onCompleted() {
@@ -117,6 +117,25 @@ public class MainActivity extends BaseActivity {
             showProgressDialog("正在使用高斯模糊算法处理图片...");
             // 高斯模糊算法处理图片
             mBlurUtil.gaussianBlur(mSelectImage);
+            return true;
+        } else if (id == R.id.action_median_blur_image) {
+            // 中值模糊方法
+            if (null == mSelectImage) {
+                Snackbar.make(mIvImage, "请先选择一张图片", Snackbar.LENGTH_SHORT).show();
+                return false;
+            }
+            showProgressDialog("正在使用中值模糊算法处理图片...");
+            // 中值模糊算法处理图片
+            mBlurUtil.medianBlur(mSelectImage);
+            return true;
+        } else if (id == R.id.action_filter2D) {
+            if (null == mSelectImage) {
+                Snackbar.make(mIvImage, "请先选择一张图片", Snackbar.LENGTH_SHORT).show();
+                return false;
+            }
+            showProgressDialog("正在锐化图片...");
+            // 锐化图片
+            mBlurUtil.filter2D(mSelectImage);
             return true;
         }
         return super.onOptionsItemSelected(item);

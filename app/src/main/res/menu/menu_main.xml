@@ -19,4 +19,16 @@
         android:orderInCategory="100"
         android:title="高斯模糊方法"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_median_blur_image"
+        android:orderInCategory="100"
+        android:title="中值模糊方法"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_filter2D"
+        android:orderInCategory="100"
+        android:title="图片锐化"
+        app:showAsAction="never" />
 </menu>
