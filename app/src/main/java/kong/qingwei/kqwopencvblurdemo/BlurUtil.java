@@ -166,7 +166,6 @@ public class BlurUtil {
                     .subscribe(mSubscriber);
     }
 
-
     /**
      * 扩大图片亮区
      *
@@ -189,6 +188,41 @@ public class BlurUtil {
                             Mat kernelDilate = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
                             // 扩大亮区
                             Imgproc.dilate(src, src, kernelDilate);
+
+                            // Mat转Bitmap
+                            Bitmap processedImage = Bitmap.createBitmap(src.cols(), src.rows(), Bitmap.Config.ARGB_8888);
+                            Utils.matToBitmap(src, processedImage);
+
+                            return processedImage;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(mSubscriber);
+    }
+
+    /**
+     * 扩大图片暗区（腐蚀图片）
+     *
+     * @param bitmap 要处理的图片
+     */
+    public void erode(Bitmap bitmap) {
+        // 使用RxJava处理图片
+        if (null != mSubscriber)
+            Observable
+                    .just(bitmap)
+                    .map(new Func1<Bitmap, Bitmap>() {
+
+                        @Override
+                        public Bitmap call(Bitmap bitmap) {
+                            // Bitmap转为Mat
+                            Mat src = new Mat(bitmap.getHeight(), bitmap.getWidth(), CvType.CV_8UC4);
+                            Utils.bitmapToMat(bitmap, src);
+
+                            // 定义一个合适大小的核
+                            Mat kernelErode = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(5, 5));
+                            // 扩大暗区（腐蚀）
+                            Imgproc.erode(src, src, kernelErode);
 
                             // Mat转Bitmap
                             Bitmap processedImage = Bitmap.createBitmap(src.cols(), src.rows(), Bitmap.Config.ARGB_8888);

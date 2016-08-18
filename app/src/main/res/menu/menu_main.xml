@@ -37,4 +37,10 @@
         android:orderInCategory="100"
         android:title="图片亮区扩大（膨胀）"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_erode"
+        android:orderInCategory="100"
+        android:title="图片暗区扩大（腐蚀）"
+        app:showAsAction="never" />
 </menu>

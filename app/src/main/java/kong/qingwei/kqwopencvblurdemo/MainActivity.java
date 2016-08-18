@@ -147,6 +147,16 @@ public class MainActivity extends BaseActivity {
             // 扩大图片亮区
             mBlurUtil.dilate(mSelectImage);
             return true;
+        } else if (id == R.id.action_erode) {
+            // 扩大图片暗区（腐蚀）
+            if (null == mSelectImage) {
+                Snackbar.make(mIvImage, "请先选择一张图片", Snackbar.LENGTH_SHORT).show();
+                return false;
+            }
+            showProgressDialog("正在扩大图片暗区（腐蚀图片）...");
+            // 扩大图片暗区
+            mBlurUtil.erode(mSelectImage);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
