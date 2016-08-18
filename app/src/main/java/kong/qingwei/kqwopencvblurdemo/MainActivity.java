@@ -137,6 +137,16 @@ public class MainActivity extends BaseActivity {
             // 锐化图片
             mBlurUtil.filter2D(mSelectImage);
             return true;
+        } else if (id == R.id.action_dilate) {
+            // 图片亮区扩大（膨胀）
+            if (null == mSelectImage) {
+                Snackbar.make(mIvImage, "请先选择一张图片", Snackbar.LENGTH_SHORT).show();
+                return false;
+            }
+            showProgressDialog("正在扩大图片亮区...");
+            // 扩大图片亮区
+            mBlurUtil.dilate(mSelectImage);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -165,4 +165,40 @@ public class BlurUtil {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(mSubscriber);
     }
+
+
+    /**
+     * 扩大图片亮区
+     *
+     * @param bitmap 要处理的图片
+     */
+    public void dilate(Bitmap bitmap) {
+        // 使用RxJava处理图片
+        if (null != mSubscriber)
+            Observable
+                    .just(bitmap)
+                    .map(new Func1<Bitmap, Bitmap>() {
+
+                        @Override
+                        public Bitmap call(Bitmap bitmap) {
+                            // Bitmap转为Mat
+                            Mat src = new Mat(bitmap.getHeight(), bitmap.getWidth(), CvType.CV_8UC4);
+                            Utils.bitmapToMat(bitmap, src);
+
+                            // 定义一个合适大小的核
+                            Mat kernelDilate = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
+                            // 扩大亮区
+                            Imgproc.dilate(src, src, kernelDilate);
+
+                            // Mat转Bitmap
+                            Bitmap processedImage = Bitmap.createBitmap(src.cols(), src.rows(), Bitmap.Config.ARGB_8888);
+                            Utils.matToBitmap(src, processedImage);
+
+                            return processedImage;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(mSubscriber);
+    }
 }

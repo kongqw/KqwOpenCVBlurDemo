@@ -31,4 +31,10 @@
         android:orderInCategory="100"
         android:title="图片锐化"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_dilate"
+        android:orderInCategory="100"
+        android:title="图片亮区扩大（膨胀）"
+        app:showAsAction="never" />
 </menu>
