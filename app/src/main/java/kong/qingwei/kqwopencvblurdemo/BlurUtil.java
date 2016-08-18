@@ -235,4 +235,50 @@ public class BlurUtil {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(mSubscriber);
     }
+
+    /**
+     * 自适应阈值
+     *
+     * @param bitmap 要处理的图片
+     */
+    public void adaptiveThreshold(Bitmap bitmap) {
+        // 使用RxJava处理图片
+        if (null != mSubscriber)
+            Observable
+                    .just(bitmap)
+                    .map(new Func1<Bitmap, Bitmap>() {
+
+                        @Override
+                        public Bitmap call(Bitmap bitmap) {
+                            // Bitmap转为Mat
+                            Mat src = new Mat(bitmap.getHeight(), bitmap.getWidth(), CvType.CV_8UC4);
+                            Utils.bitmapToMat(bitmap, src);
+
+                            // 图像置灰
+                            Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2GRAY);
+                            // 自适应阈值化
+                            Imgproc.adaptiveThreshold(src, src, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 3, 0);
+
+                            // 二值阈值化
+                            // Imgproc.threshold(src, src, 100, 255, Imgproc.THRESH_BINARY);
+                            // 阈值化到零
+                            // Imgproc.threshold(src, src, 100, 255, Imgproc.THRESH_TOZERO);
+                            // 截断阈值化
+                            // Imgproc.threshold(src, src, 100, 255, Imgproc.THRESH_TRUNC);
+                            // 反转二值阈值化
+                            // Imgproc.threshold(src, src, 100, 255, Imgproc.THRESH_BINARY_INV);
+                            // 反转阈值化到零
+                            // Imgproc.threshold(src, src, 100, 255, Imgproc.THRESH_TOZERO_INV);
+
+                            // Mat转Bitmap
+                            Bitmap processedImage = Bitmap.createBitmap(src.cols(), src.rows(), Bitmap.Config.ARGB_8888);
+                            Utils.matToBitmap(src, processedImage);
+
+                            return processedImage;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(mSubscriber);
+    }
 }

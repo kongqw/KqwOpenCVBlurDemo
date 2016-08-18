@@ -43,4 +43,10 @@
         android:orderInCategory="100"
         android:title="图片暗区扩大（腐蚀）"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_adaptive_threshold"
+        android:orderInCategory="100"
+        android:title="图片自适应阈值化"
+        app:showAsAction="never" />
 </menu>
